@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
     "section": "",
-    "text": "I grew up in India and spent the last five years working as a data engineer, most recently building a Microsoft Fabric data platform for an agricultural insurance provider in Alberta. Before that I worked with the City of Ottawa and the RCMP, mostly on pipelines, Lakehouses, and the unglamorous plumbing that makes analytics possible. I moved to Vancouver in August 2026 to start MDS."
+    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 11, 2026\n\n\nRupesh Patel\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -12,6 +12,20 @@
     "title": "Rupesh Patel",
     "section": "",
     "text": "Introduction: My name is Rupesh Patel. I came from Toronto,Ontario,Canada. I studied bachelore in Mechanical Engineering. From this program, I’m hoping to learn about datascience, machine learning concepts. I was working as a data engineer at Alberta’s financial corporation. After completing this program,I’m planning to become a datascientist."
+  },
+  {
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
+    "section": "",
+    "text": "I drove into Vancouver on August 9th with a car full of boxes and spent the month before classes on logistics. Orientation was mostly a blur of names, but one thing landed: this is a cohort program — same people, same four courses, same room, every day until May. Then classes started and it was DSCI 551, 523, 511, and 521 all at once, each with labs. The site you are reading is a 521 deliverable, which is a slightly strange thing to write in a blog post.\nI assumed the tooling would be the easy part. Instead my first real fight of the term was with SSH: I could not clone from github.ubc.ca at all, and the cause turned out to be an IdentityFile mismatch once I had more than one key on the machine. R surprised me too. I write Python for a living and figured a second language would be translation work, then lost an embarrassing stretch of time to the difference between list(values) and as.list(values), which are not the same thing and do not fail loudly when you pick wrong.\nThe best surprise was conceptual. In 551 something clicked about the difference between a parametric family, a specific distribution inside it, the parameters that pick it out, and the values you actually observe — four things I had been using interchangeably for years. That is the whole reason I came: I was good at building pipelines and much shakier on what the numbers coming out of them meant. Being the least informed person in the room again is uncomfortable and clearly the point. Ask me again after midterms.\n\n\n\nOrientation day on campus."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I grew up in India and spent the last five years working as a data engineer, most recently building a Microsoft Fabric data platform for an agricultural insurance provider in Alberta. Before that I worked with the City of Ottawa and the RCMP, mostly on pipelines, Lakehouses, and the unglamorous plumbing that makes analytics possible. I moved to Vancouver in August 2026 to start MDS."
   },
   {
     "objectID": "about.html#background",
@@ -33,19 +47,5 @@
     "title": "About",
     "section": "Outside of data science",
     "text": "Outside of data science\nI lift five or six days a week on a push/pull/legs split, and I’m slowly learning which Vancouver trails are worth the drive. I make my coffee at home with a Clever Dripper and a hand grinder, which is either a hobby or a mild compulsion depending on the morning. I also read a fair bit of Indian philosophy, the Gita and the Ramayana and sit for meditation most days."
-  },
-  {
-    "objectID": "posts/first-weeks/index.html",
-    "href": "posts/first-weeks/index.html",
-    "title": "My first weeks in MDS",
-    "section": "",
-    "text": "I drove into Vancouver on August 9th with a car full of boxes and spent the month before classes on logistics. Orientation was mostly a blur of names, but one thing landed: this is a cohort program — same people, same four courses, same room, every day until May. Then classes started and it was DSCI 551, 523, 511, and 521 all at once, each with labs. The site you are reading is a 521 deliverable, which is a slightly strange thing to write in a blog post.\nI assumed the tooling would be the easy part. Instead my first real fight of the term was with SSH: I could not clone from github.ubc.ca at all, and the cause turned out to be an IdentityFile mismatch once I had more than one key on the machine. R surprised me too. I write Python for a living and figured a second language would be translation work, then lost an embarrassing stretch of time to the difference between list(values) and as.list(values), which are not the same thing and do not fail loudly when you pick wrong.\nThe best surprise was conceptual. In 551 something clicked about the difference between a parametric family, a specific distribution inside it, the parameters that pick it out, and the values you actually observe — four things I had been using interchangeably for years. That is the whole reason I came: I was good at building pipelines and much shakier on what the numbers coming out of them meant. Being the least informed person in the room again is uncomfortable and clearly the point. Ask me again after midterms.\n\n\n\nOrientation day on campus."
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
-    "section": "",
-    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 11, 2026\n\n\nRupesh Patel\n\n\n\n\n\nNo matching items"
   }
 ]
