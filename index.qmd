@@ -1,7 +1,8 @@
 ---
-title: "website"
+title: "Rupesh Patel"
+about:
+  template: jolla
+  image: images/profile.jpg
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Introduction: My name is Rupesh Patel. I came from Toronto,Ontario,Canada. I studied bachelore in Mechanical Engineering. From this program, I'm hoping to learn about datascience, machine learning concepts. I was working as a data engineer at Alberta's financial corporation. After completing this program,I'm planning to become a datascientist.

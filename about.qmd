@@ -2,4 +2,27 @@
 title: "About"
 ---
 
-About this site
+## Background
+
+I grew up in India and spent the last five years working as a data engineer,
+most recently building a Microsoft Fabric data platform for an agricultural
+insurance provider in Alberta. Before that I worked with the City of Ottawa and
+the RCMP, mostly on pipelines, Lakehouses, and the unglamorous plumbing that
+makes analytics possible. I moved to Vancouver in August 2026 to start MDS.
+
+## Why data science
+
+After years of moving data from one place to another, I kept running into the
+same wall: I could build the pipeline, but I couldn't always say what the
+numbers actually meant. MDS is my attempt to close that gap to get properly
+fluent in statistics and modelling instead of handing the interesting questions
+off to someone else. The R half of the program is new territory for me, which
+is part of the appeal.
+
+## Outside of data science
+
+I lift five or six days a week on a push/pull/legs split, and I'm slowly
+learning which Vancouver trails are worth the drive. I make my coffee at home
+with a Clever Dripper and a hand grinder, which is either a hobby or a mild
+compulsion depending on the morning. I also read a fair bit of Indian
+philosophy, the Gita and the Ramayana and sit for meditation most days.
