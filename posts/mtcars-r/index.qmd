@@ -2,17 +2,34 @@
 title: "Car weight and fuel efficiency"
 author: "Rupesh Patel"
 date: 2026-09-21
+execute:
+  echo: true
 ---
 
-I will explore how car weight relates to fuel efficiency and compare
-average miles per gallon across cylinder groups.
+## Introduction
 
-Data: [Motor Trend Car Road Tests](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html),
-available as the built-in mtcars dataset in R.
-It contains information about 32 cars from the 1973–74 model years.
+Do heavier cars tend to have lower fuel efficiency? In this post, I
+explore the relationship between car weight and miles per gallon.
+I also compare average fuel efficiency across cylinder groups.
+
+A higher miles-per-gallon value means the car can travel farther
+using the same amount of fuel.
+
+## Data source
+
+I use the built-in R dataset
+[mtcars: Motor Trend Car Road Tests](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html).
+
+The data was extracted from the 1974 Motor Trend magazine and contains
+32 cars from the 1973–74 model years. The R documentation cites
+[Henderson and Velleman (1981)](https://doi.org/10.2307/2530428).
+
+I use the copy included with R, so no separate data download is needed.
+
+## Set up
 
 ```{r}
-#| label: setup
+#| label: r-setup
 #| message: false
 #| warning: false
 
@@ -20,6 +37,113 @@ library(dplyr)
 library(ggplot2)
 ```
 
+The setup chunk suppresses package startup messages and warnings
+to keep the page easier to read.
+
+## Explore the data
+
+I select the columns needed for this analysis and check for missing
+values.
+
 ```{r}
-head(mtcars)
+#| label: explore-cars
+
+cars <- mtcars |>
+  select(mpg, wt, cyl)
+
+head(cars)
+nrow(cars)
+colSums(is.na(cars))
 ```
+
+There are 32 cars and no missing values in these three columns.
+The variables are:
+
+- `mpg`: miles per US gallon.
+- `wt`: car weight in thousands of pounds.
+- `cyl`: number of cylinders.
+
+## Compare fuel efficiency by cylinder group
+
+I calculate the number of cars and the average fuel efficiency
+for each cylinder group.
+
+```{r}
+#| label: summarize-cars
+
+cylinder_summary <- cars |>
+  group_by(cyl) |>
+  summarise(
+    number_of_cars = n(),
+    average_mpg = mean(mpg),
+    .groups = "drop"
+  )
+
+knitr::kable(
+  cylinder_summary,
+  digits = 1,
+  col.names = c("Cylinders", "Number of cars", "Average MPG")
+)
+```
+
+The four-cylinder cars have the highest average fuel efficiency,
+at approximately 26.7 MPG. The averages for six-cylinder and
+eight-cylinder cars are approximately 19.7 and 15.1 MPG.
+
+These are comparisons between the cars in this dataset. They do
+not show that cylinder count alone explains the differences.
+
+## Plot weight against fuel efficiency
+
+I use a scatter plot to check how fuel efficiency changes with car
+weight. Each point represents one car. I treat cylinder count as a
+category so each group gets a separate colour.
+
+```{r}
+#| label: fig-car-weight-mpg
+#| fig-cap: "Car weight and fuel efficiency for 32 cars, coloured by cylinder count."
+#| fig-width: 7
+#| fig-height: 4.5
+
+ggplot(cars, aes(x = wt, y = mpg, colour = factor(cyl))) +
+  geom_point(size = 3, alpha = 0.8) +
+  labs(
+    title = "Car weight and fuel efficiency",
+    x = "Weight (1,000 pounds)",
+    y = "Fuel efficiency (miles per US gallon)",
+    colour = "Cylinders"
+  ) +
+  theme_minimal()
+```
+
+The plot shows a downward pattern: heavier cars generally have lower
+MPG values. The eight-cylinder cars also tend to appear among the
+heavier cars with lower fuel efficiency.
+
+## Measure the relationship
+
+I calculate the Pearson correlation between weight and MPG.
+
+```{r}
+#| label: weight-mpg-correlation
+
+weight_mpg_correlation <- cor(cars$wt, cars$mpg)
+
+round(weight_mpg_correlation, 3)
+```
+
+The correlation is approximately -0.868, indicating a strong negative
+linear relationship in this dataset.
+
+## Conclusion
+
+Heavier cars tend to have lower fuel efficiency in this dataset.
+Four-cylinder cars also have higher average MPG than the six-cylinder
+and eight-cylinder groups.
+
+However, this is an observational comparison. Weight, cylinder count,
+and other car characteristics vary together, so the analysis does not
+isolate the effect of weight alone.
+
+The data contains only 32 older cars. These results should not be
+assumed to describe modern vehicles.
