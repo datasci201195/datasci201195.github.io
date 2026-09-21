@@ -170,3 +170,27 @@ are excluded from Git.
 GitHub Pages serves the rendered website from the `docs/` folder.
 After changing the source files, render again and commit the updated
 website output before pushing to GitHub.
+
+## Bonus: R and Python in one post
+
+File: `posts/r-and-python/index.qmd`
+
+This post uses the built-in R dataset `mtcars` to compare fuel
+efficiency by transmission type.
+
+R prepares the data, Python calculates summaries using pandas,
+and R creates a table and plot from the Python results.
+
+The post uses the knitr engine and the reticulate R package.
+Reticulate is recorded in `renv.lock`. The post selects the
+repository's `.venv` using a path relative to its folder.
+
+The existing build commands also rebuild the bonus post:
+
+    uv sync --locked
+    Rscript -e "renv::restore(prompt = FALSE)"
+    uv run quarto render
+
+No additional dataset download is required.
+
+Bonus post: https://datasci201195.github.io/posts/r-and-python/

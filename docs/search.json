@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Car weight and fuel efficiency\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nComparing body mass across penguin species\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nMy first weeks in MDS\n\n\n\n\n\n\n\n\nSep 11, 2026\n\n\nRupesh Patel\n\n\n\n\n\nNo matching items"
+    "text": "Car weight and fuel efficiency\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nComparing fuel efficiency using R and Python\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nComparing body mass across penguin species\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nMy first weeks in MDS\n\n\n\n\n\n\n\n\nSep 11, 2026\n\n\nRupesh Patel\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -12,6 +12,83 @@
     "title": "Rupesh Patel",
     "section": "",
     "text": "My name is Rupesh Patel. I moved from Toronto, Ontario, to Vancouver to study in the Master of Data Science program at UBC.\nI have a bachelor’s degree in Mechanical Engineering and previously worked as a data engineer. Through this program, I hope to build my understanding of statistics, data science, and machine learning.\nAfter completing the program, I plan to work as a data scientist. This website shares my background, experiences in MDS, and small data analysis projects using Python and R."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html",
+    "href": "posts/r-and-python/index.html",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "",
+    "text": "In this post, I use R and Python together to compare fuel efficiency between automatic and manual cars.\nI prepare the data in R, calculate group summaries in Python, and bring the results back into R to create a table and plot. The reticulate package allows the two languages to share objects without saving intermediate CSV files."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#introduction",
+    "href": "posts/r-and-python/index.html#introduction",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "",
+    "text": "In this post, I use R and Python together to compare fuel efficiency between automatic and manual cars.\nI prepare the data in R, calculate group summaries in Python, and bring the results back into R to create a table and plot. The reticulate package allows the two languages to share objects without saving intermediate CSV files."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#data-source",
+    "href": "posts/r-and-python/index.html#data-source",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Data source",
+    "text": "Data source\nI use the built-in R dataset mtcars: Motor Trend Car Road Tests.\nThe data was extracted from the 1974 Motor Trend magazine and contains 32 cars from the 1973–74 model years. The R documentation cites Henderson and Velleman (1981).\nThe dataset comes with R, so no separate download is needed."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#set-up-r-and-python",
+    "href": "posts/r-and-python/index.html#set-up-r-and-python",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Set up R and Python",
+    "text": "Set up R and Python\n\nlibrary(reticulate)\nlibrary(dplyr)\nlibrary(ggplot2)\n\nuse_virtualenv(\"../../.venv\", required = TRUE)\n\npy_config()\n\npython:         /Users/patelru/ubc_mds/521/datasci201195.github.io/.venv/bin/python\nlibpython:      /Users/patelru/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/libpython3.14.dylib\npythonhome:     /Users/patelru/ubc_mds/521/datasci201195.github.io/.venv:/Users/patelru/ubc_mds/521/datasci201195.github.io/.venv\nvirtualenv:     /Users/patelru/ubc_mds/521/datasci201195.github.io/.venv/bin/activate_this.py\nversion:        3.14.7 (main, Aug 14 2026, 15:24:10) [Clang 22.1.3 ]\nnumpy:          /Users/patelru/ubc_mds/521/datasci201195.github.io/.venv/lib/python3.14/site-packages/numpy\nnumpy_version:  2.5.3\n\nNOTE: Python version was forced by use_python() function\n\n\nThis post is inside posts/r-and-python, so ../../.venv points to the Python environment at the repository root. This relative path also works when the repository is cloned into a different location.\nThe configuration output shows which Python interpreter is being used."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#prepare-the-data-in-r",
+    "href": "posts/r-and-python/index.html#prepare-the-data-in-r",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Prepare the data in R",
+    "text": "Prepare the data in R\nI select fuel efficiency, weight, and transmission type. The original transmission variable uses 0 for automatic and 1 for manual, so I create readable labels.\n\ncars_bonus &lt;- mtcars |&gt;\n  select(mpg, wt, am) |&gt;\n  mutate(\n    transmission = if_else(am == 0, \"Automatic\", \"Manual\")\n  )\n\nhead(cars_bonus)\n\n                   mpg    wt am transmission\nMazda RX4         21.0 2.620  1       Manual\nMazda RX4 Wag     21.0 2.875  1       Manual\nDatsun 710        22.8 2.320  1       Manual\nHornet 4 Drive    21.4 3.215  0    Automatic\nHornet Sportabout 18.7 3.440  0    Automatic\nValiant           18.1 3.460  0    Automatic\n\ncolSums(is.na(cars_bonus))\n\n         mpg           wt           am transmission \n           0            0            0            0 \n\n\nThere are no missing values in these selected columns. Fuel efficiency is measured in miles per US gallon, and weight is measured in thousands of pounds."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#pass-the-r-data-to-python",
+    "href": "posts/r-and-python/index.html#pass-the-r-data-to-python",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Pass the R data to Python",
+    "text": "Pass the R data to Python\nIn a Python chunk, r.cars_bonus accesses the object created in R. Reticulate converts the R data frame into a pandas DataFrame.\n\nimport pandas as pd\n\ncars_python = r.cars_bonus.copy()\n\nprint(type(cars_python))\n\n&lt;class 'pandas.DataFrame'&gt;\n\nprint(\"Number of cars:\", len(cars_python))\n\nNumber of cars: 32\n\nprint(cars_python.head())\n\n                    mpg     wt   am transmission\nMazda RX4          21.0  2.620  1.0       Manual\nMazda RX4 Wag      21.0  2.875  1.0       Manual\nDatsun 710         22.8  2.320  1.0       Manual\nHornet 4 Drive     21.4  3.215  0.0    Automatic\nHornet Sportabout  18.7  3.440  0.0    Automatic\n\n\nThis confirms that Python received the data prepared in R."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#calculate-the-summaries-in-python",
+    "href": "posts/r-and-python/index.html#calculate-the-summaries-in-python",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Calculate the summaries in Python",
+    "text": "Calculate the summaries in Python\nI group the cars by transmission type and calculate the number of cars, average fuel efficiency, and average weight.\n\ntransmission_summary = (\n    cars_python\n    .groupby(\"transmission\", as_index=False)\n    .agg(\n        number_of_cars=(\"mpg\", \"size\"),\n        average_mpg=(\"mpg\", \"mean\"),\n        average_weight=(\"wt\", \"mean\")\n    )\n)\n\nprint(transmission_summary.round(2).to_string(index=False))\n\ntransmission  number_of_cars  average_mpg  average_weight\n   Automatic              19        17.15            3.77\n      Manual              13        24.39            2.41\n\n\nThe manual group has an average fuel efficiency of about 24.4 MPG, compared with 17.1 MPG for the automatic group.\nHowever, the manual cars are also lighter on average. Their average weight is about 2.41 thousand pounds, compared with 3.77 thousand pounds for the automatic cars."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#bring-the-python-results-back-to-r",
+    "href": "posts/r-and-python/index.html#bring-the-python-results-back-to-r",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Bring the Python results back to R",
+    "text": "Bring the Python results back to R\nIn an R chunk, py$transmission_summary accesses the summary created in Python. I store it as an R object and display it as a table.\n\nsummary_r &lt;- py$transmission_summary\n\nknitr::kable(\n  summary_r,\n  digits = 2,\n  col.names = c(\n    \"Transmission\",\n    \"Number of cars\",\n    \"Average MPG\",\n    \"Average weight (1,000 pounds)\"\n  )\n)\n\n\n\n\n\n\n\n\n\n\nTransmission\nNumber of cars\nAverage MPG\nAverage weight (1,000 pounds)\n\n\n\n\nAutomatic\n19\n17.15\n3.77\n\n\nManual\n13\n24.39\n2.41\n\n\n\n\n\nThe numbers in this table were calculated in Python and then passed back to R."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#plot-the-results-in-r",
+    "href": "posts/r-and-python/index.html#plot-the-results-in-r",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Plot the results in R",
+    "text": "Plot the results in R\n\nggplot(\n  summary_r,\n  aes(x = transmission, y = average_mpg, fill = transmission)\n) +\n  geom_col(width = 0.6) +\n  geom_text(\n    aes(label = round(average_mpg, 1)),\n    vjust = -0.5\n  ) +\n  scale_fill_manual(\n    values = c(\"Automatic\" = \"#4477AA\", \"Manual\" = \"#228833\")\n  ) +\n  scale_y_continuous(\n    expand = expansion(mult = c(0, 0.12))\n  ) +\n  labs(\n    title = \"Average fuel efficiency by transmission\",\n    x = \"Transmission\",\n    y = \"Average fuel efficiency (miles per US gallon)\"\n  ) +\n  guides(fill = \"none\") +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 1: Average fuel efficiency by transmission type. The averages were calculated in Python and plotted in R."
+  },
+  {
+    "objectID": "posts/r-and-python/index.html#conclusion",
+    "href": "posts/r-and-python/index.html#conclusion",
+    "title": "Comparing fuel efficiency using R and Python",
+    "section": "Conclusion",
+    "text": "Conclusion\nManual cars have higher average MPG in this dataset, but they are also lighter on average. This comparison does not show that changing the transmission alone would improve fuel efficiency.\nThe dataset contains only 32 older cars, so these results should not be assumed to describe modern vehicles.\nThis post demonstrates a shared workflow: R prepares the data, Python calculates the summaries, and R displays the results. The objects are passed between the languages using reticulate."
+  },
+  {
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
+    "section": "",
+    "text": "I drove into Vancouver on August 9th with a car full of boxes and spent the month before classes on logistics. Orientation was mostly a blur of names, but one thing landed: this is a cohort program — same people, same four courses, same room, every day until May. Then classes started and it was DSCI 551, 523, 511, and 521 all at once, each with labs. The site you are reading is a 521 deliverable, which is a slightly strange thing to write in a blog post.\nI assumed the tooling would be the easy part. Instead my first real fight of the term was with SSH: I could not clone from github.ubc.ca at all, and the cause turned out to be an IdentityFile mismatch once I had more than one key on the machine. R surprised me too. I write Python for a living and figured a second language would be translation work, then lost an embarrassing stretch of time to the difference between list(values) and as.list(values), which are not the same thing and do not fail loudly when you pick wrong.\nThe best surprise was conceptual. In 551 something clicked about the difference between a parametric family, a specific distribution inside it, the parameters that pick it out, and the values you actually observe — four things I had been using interchangeably for years. That is the whole reason I came: I was good at building pipelines and much shakier on what the numbers coming out of them meant. Being the least informed person in the room again is uncomfortable and clearly the point. Ask me again after midterms.\n\n\n\nOrientation day on campus."
   },
   {
     "objectID": "posts/mtcars-r/index.html",
@@ -75,13 +152,6 @@
     "title": "Car weight and fuel efficiency",
     "section": "Conclusion",
     "text": "Conclusion\nHeavier cars tend to have lower fuel efficiency in this dataset. Four-cylinder cars also have higher average MPG than the six-cylinder and eight-cylinder groups.\nHowever, this is an observational comparison. Weight, cylinder count, and other car characteristics vary together, so the analysis does not isolate the effect of weight alone.\nThe data contains only 32 older cars. These results should not be assumed to describe modern vehicles."
-  },
-  {
-    "objectID": "posts/first-weeks/index.html",
-    "href": "posts/first-weeks/index.html",
-    "title": "My first weeks in MDS",
-    "section": "",
-    "text": "I drove into Vancouver on August 9th with a car full of boxes and spent the month before classes on logistics. Orientation was mostly a blur of names, but one thing landed: this is a cohort program — same people, same four courses, same room, every day until May. Then classes started and it was DSCI 551, 523, 511, and 521 all at once, each with labs. The site you are reading is a 521 deliverable, which is a slightly strange thing to write in a blog post.\nI assumed the tooling would be the easy part. Instead my first real fight of the term was with SSH: I could not clone from github.ubc.ca at all, and the cause turned out to be an IdentityFile mismatch once I had more than one key on the machine. R surprised me too. I write Python for a living and figured a second language would be translation work, then lost an embarrassing stretch of time to the difference between list(values) and as.list(values), which are not the same thing and do not fail loudly when you pick wrong.\nThe best surprise was conceptual. In 551 something clicked about the difference between a parametric family, a specific distribution inside it, the parameters that pick it out, and the values you actually observe — four things I had been using interchangeably for years. That is the whole reason I came: I was good at building pipelines and much shakier on what the numbers coming out of them meant. Being the least informed person in the room again is uncomfortable and clearly the point. Ask me again after midterms.\n\n\n\nOrientation day on campus."
   },
   {
     "objectID": "posts/penguins-python/index.html",
