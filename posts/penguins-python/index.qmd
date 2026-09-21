@@ -3,15 +3,134 @@ title: "Comparing body mass across penguin species"
 author: "Rupesh Patel"
 date: 2026-09-21
 jupyter: python3
+execute:
+  echo: true
 ---
 
-I will explore how body mass differs across penguin species.
+## Introduction
 
-Data: [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/),
+Do all penguin species have a similar body mass? In this post, I use
+Python to compare the average body mass of Adelie, Chinstrap, and Gentoo
+penguins. I first check the data, remove records with missing body mass,
+and then summarize and plot the results.
+
+## Data source
+
+I use the [Palmer Penguins dataset](https://allisonhorst.github.io/palmerpenguins/),
 collected by Dr. Kristen Gorman and Palmer Station Antarctica LTER.
 The data is available under a CC0 licence.
 
+Dataset package citation: Horst, Hill, and Gorman (2020),
+[palmerpenguins](https://doi.org/10.5281/zenodo.3960218).
+
+The Python package includes the data, so this post does not need to
+download a separate CSV when it runs.
+
+## Set up
+
 ```{python}
+#| label: python-setup
+
 import sys
+import matplotlib.pyplot as plt
+from palmerpenguins import load_penguins
+
 print(sys.executable)
 ```
+
+## Explore the data
+
+I load the dataset and check its size and first few rows.
+
+```{python}
+#| label: explore-penguins
+
+penguins = load_penguins()
+
+print("Number of rows:", penguins.shape[0])
+print("Number of columns:", penguins.shape[1])
+
+penguins.head()
+```
+
+The dataset contains 344 penguins. For this analysis, I focus on the
+species and body mass columns. Body mass is measured in grams.
+
+## Check missing values
+
+Before calculating averages, I check whether any body mass values
+are missing.
+
+```{python}
+#| label: clean-penguins
+
+print(penguins[["species", "body_mass_g"]].isna().sum())
+
+penguins_clean = penguins.dropna(subset=["species", "body_mass_g"])
+
+print("Rows remaining:", len(penguins_clean))
+print("Rows removed:", len(penguins) - len(penguins_clean))
+```
+
+Two penguins have missing body mass values, leaving 342 records for
+the comparison. I only remove rows missing values needed for this
+analysis. Missing values in other columns do not affect this comparison.
+
+## Average body mass by species
+
+I group the remaining records by species and calculate the number of
+penguins and their average body mass.
+
+```{python}
+#| label: summarize-penguins
+
+species_summary = (
+    penguins_clean
+    .groupby("species", as_index=False)
+    .agg(
+        count=("body_mass_g", "size"),
+        mean_body_mass_g=("body_mass_g", "mean")
+    )
+    .sort_values("mean_body_mass_g")
+)
+
+species_summary.round(1)
+```
+
+Gentoo penguins have the highest average body mass, at approximately
+5,076 grams. Adelie and Chinstrap penguins have similar averages,
+at approximately 3,701 and 3,733 grams.
+
+## Compare the averages visually
+
+```{python}
+#| label: fig-penguin-body-mass
+#| fig-cap: "Average body mass by penguin species, excluding records with missing body mass."
+
+fig, ax = plt.subplots(figsize=(7, 4))
+
+ax.bar(
+    species_summary["species"],
+    species_summary["mean_body_mass_g"],
+    color=["#4477AA", "#228833", "#CCBB44"]
+)
+
+ax.set_xlabel("Penguin species")
+ax.set_ylabel("Average body mass (g)")
+ax.set_title("Average body mass by species")
+ax.set_ylim(bottom=0)
+
+fig.tight_layout()
+plt.show()
+```
+
+## Conclusion
+
+In this dataset, Gentoo penguins have a higher average body mass than
+the other two species. Adelie and Chinstrap penguins have much closer
+averages.
+
+This comparison only describes group averages. It does not show the
+variation within each species or account for differences in the
+proportion of male and female penguins. A useful next step would be
+to compare body mass by both species and sex.
