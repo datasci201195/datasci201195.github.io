@@ -5,4 +5,13 @@ about:
   image: images/profile.jpg
 ---
 
-Introduction: My name is Rupesh Patel. I came from Toronto,Ontario,Canada. I studied bachelore in Mechanical Engineering. From this program, I'm hoping to learn about datascience, machine learning concepts. I was working as a data engineer at Alberta's financial corporation. After completing this program,I'm planning to become a datascientist.
+My name is Rupesh Patel. I moved from Toronto, Ontario, to Vancouver
+to study in the Master of Data Science program at UBC.
+
+I have a bachelor's degree in Mechanical Engineering and previously
+worked as a data engineer. Through this program, I hope to build my
+understanding of statistics, data science, and machine learning.
+
+After completing the program, I plan to work as a data scientist.
+This website shares my background, experiences in MDS, and small
+data analysis projects using Python and R.
