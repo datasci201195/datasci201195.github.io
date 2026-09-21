@@ -18,7 +18,63 @@
     "href": "posts/mtcars-r/index.html",
     "title": "Car weight and fuel efficiency",
     "section": "",
-    "text": "I will explore how car weight relates to fuel efficiency and compare average miles per gallon across cylinder groups.\nData: Motor Trend Car Road Tests, available as the built-in mtcars dataset in R. It contains information about 32 cars from the 1973–74 model years.\n\nlibrary(dplyr)\nlibrary(ggplot2)\n\n\nhead(mtcars)\n\n                   mpg cyl disp  hp drat    wt  qsec vs am gear carb\nMazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4\nMazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4\nDatsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1\nHornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1\nHornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2\nValiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1"
+    "text": "Do heavier cars tend to have lower fuel efficiency? In this post, I explore the relationship between car weight and miles per gallon. I also compare average fuel efficiency across cylinder groups.\nA higher miles-per-gallon value means the car can travel farther using the same amount of fuel."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#introduction",
+    "href": "posts/mtcars-r/index.html#introduction",
+    "title": "Car weight and fuel efficiency",
+    "section": "",
+    "text": "Do heavier cars tend to have lower fuel efficiency? In this post, I explore the relationship between car weight and miles per gallon. I also compare average fuel efficiency across cylinder groups.\nA higher miles-per-gallon value means the car can travel farther using the same amount of fuel."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#data-source",
+    "href": "posts/mtcars-r/index.html#data-source",
+    "title": "Car weight and fuel efficiency",
+    "section": "Data source",
+    "text": "Data source\nI use the built-in R dataset mtcars: Motor Trend Car Road Tests.\nThe data was extracted from the 1974 Motor Trend magazine and contains 32 cars from the 1973–74 model years. The R documentation cites Henderson and Velleman (1981).\nI use the copy included with R, so no separate data download is needed."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#set-up",
+    "href": "posts/mtcars-r/index.html#set-up",
+    "title": "Car weight and fuel efficiency",
+    "section": "Set up",
+    "text": "Set up\n\nlibrary(dplyr)\nlibrary(ggplot2)\n\nThe setup chunk suppresses package startup messages and warnings to keep the page easier to read."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#explore-the-data",
+    "href": "posts/mtcars-r/index.html#explore-the-data",
+    "title": "Car weight and fuel efficiency",
+    "section": "Explore the data",
+    "text": "Explore the data\nI select the columns needed for this analysis and check for missing values.\n\ncars &lt;- mtcars |&gt;\n  select(mpg, wt, cyl)\n\nhead(cars)\n\n                   mpg    wt cyl\nMazda RX4         21.0 2.620   6\nMazda RX4 Wag     21.0 2.875   6\nDatsun 710        22.8 2.320   4\nHornet 4 Drive    21.4 3.215   6\nHornet Sportabout 18.7 3.440   8\nValiant           18.1 3.460   6\n\nnrow(cars)\n\n[1] 32\n\ncolSums(is.na(cars))\n\nmpg  wt cyl \n  0   0   0 \n\n\nThere are 32 cars and no missing values in these three columns. The variables are:\n\nmpg: miles per US gallon.\nwt: car weight in thousands of pounds.\ncyl: number of cylinders."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#compare-fuel-efficiency-by-cylinder-group",
+    "href": "posts/mtcars-r/index.html#compare-fuel-efficiency-by-cylinder-group",
+    "title": "Car weight and fuel efficiency",
+    "section": "Compare fuel efficiency by cylinder group",
+    "text": "Compare fuel efficiency by cylinder group\nI calculate the number of cars and the average fuel efficiency for each cylinder group.\n\ncylinder_summary &lt;- cars |&gt;\n  group_by(cyl) |&gt;\n  summarise(\n    number_of_cars = n(),\n    average_mpg = mean(mpg),\n    .groups = \"drop\"\n  )\n\nknitr::kable(\n  cylinder_summary,\n  digits = 1,\n  col.names = c(\"Cylinders\", \"Number of cars\", \"Average MPG\")\n)\n\n\n\n\nCylinders\nNumber of cars\nAverage MPG\n\n\n\n\n4\n11\n26.7\n\n\n6\n7\n19.7\n\n\n8\n14\n15.1\n\n\n\n\n\nThe four-cylinder cars have the highest average fuel efficiency, at approximately 26.7 MPG. The averages for six-cylinder and eight-cylinder cars are approximately 19.7 and 15.1 MPG.\nThese are comparisons between the cars in this dataset. They do not show that cylinder count alone explains the differences."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#plot-weight-against-fuel-efficiency",
+    "href": "posts/mtcars-r/index.html#plot-weight-against-fuel-efficiency",
+    "title": "Car weight and fuel efficiency",
+    "section": "Plot weight against fuel efficiency",
+    "text": "Plot weight against fuel efficiency\nI use a scatter plot to check how fuel efficiency changes with car weight. Each point represents one car. I treat cylinder count as a category so each group gets a separate colour.\n\nggplot(cars, aes(x = wt, y = mpg, colour = factor(cyl))) +\n  geom_point(size = 3, alpha = 0.8) +\n  labs(\n    title = \"Car weight and fuel efficiency\",\n    x = \"Weight (1,000 pounds)\",\n    y = \"Fuel efficiency (miles per US gallon)\",\n    colour = \"Cylinders\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 1: Car weight and fuel efficiency for 32 cars, coloured by cylinder count.\n\n\n\n\n\nThe plot shows a downward pattern: heavier cars generally have lower MPG values. The eight-cylinder cars also tend to appear among the heavier cars with lower fuel efficiency."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#measure-the-relationship",
+    "href": "posts/mtcars-r/index.html#measure-the-relationship",
+    "title": "Car weight and fuel efficiency",
+    "section": "Measure the relationship",
+    "text": "Measure the relationship\nI calculate the Pearson correlation between weight and MPG.\n\nweight_mpg_correlation &lt;- cor(cars$wt, cars$mpg)\n\nround(weight_mpg_correlation, 3)\n\n[1] -0.868\n\n\nThe correlation is approximately -0.868, indicating a strong negative linear relationship in this dataset."
+  },
+  {
+    "objectID": "posts/mtcars-r/index.html#conclusion",
+    "href": "posts/mtcars-r/index.html#conclusion",
+    "title": "Car weight and fuel efficiency",
+    "section": "Conclusion",
+    "text": "Conclusion\nHeavier cars tend to have lower fuel efficiency in this dataset. Four-cylinder cars also have higher average MPG than the six-cylinder and eight-cylinder groups.\nHowever, this is an observational comparison. Weight, cylinder count, and other car characteristics vary together, so the analysis does not isolate the effect of weight alone.\nThe data contains only 32 older cars. These results should not be assumed to describe modern vehicles."
   },
   {
     "objectID": "posts/first-weeks/index.html",
@@ -32,7 +88,63 @@
     "href": "posts/penguins-python/index.html",
     "title": "Comparing body mass across penguin species",
     "section": "",
-    "text": "I will explore how body mass differs across penguin species.\nData: Palmer Penguins, collected by Dr. Kristen Gorman and Palmer Station Antarctica LTER. The data is available under a CC0 licence.\n\nimport sys\nprint(sys.executable)\n\n/Users/patelru/ubc_mds/521/datasci201195.github.io/.venv/bin/python3"
+    "text": "Do all penguin species have a similar body mass? In this post, I use Python to compare the average body mass of Adelie, Chinstrap, and Gentoo penguins. I first check the data, remove records with missing body mass, and then summarize and plot the results."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#introduction",
+    "href": "posts/penguins-python/index.html#introduction",
+    "title": "Comparing body mass across penguin species",
+    "section": "",
+    "text": "Do all penguin species have a similar body mass? In this post, I use Python to compare the average body mass of Adelie, Chinstrap, and Gentoo penguins. I first check the data, remove records with missing body mass, and then summarize and plot the results."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#data-source",
+    "href": "posts/penguins-python/index.html#data-source",
+    "title": "Comparing body mass across penguin species",
+    "section": "Data source",
+    "text": "Data source\nI use the Palmer Penguins dataset, collected by Dr. Kristen Gorman and Palmer Station Antarctica LTER. The data is available under a CC0 licence.\nDataset package citation: Horst, Hill, and Gorman (2020), palmerpenguins.\nThe Python package includes the data, so this post does not need to download a separate CSV when it runs."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#set-up",
+    "href": "posts/penguins-python/index.html#set-up",
+    "title": "Comparing body mass across penguin species",
+    "section": "Set up",
+    "text": "Set up\n\nimport sys\nimport matplotlib.pyplot as plt\nfrom palmerpenguins import load_penguins\n\nprint(sys.executable)\n\n/Users/patelru/ubc_mds/521/datasci201195.github.io/.venv/bin/python3"
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#explore-the-data",
+    "href": "posts/penguins-python/index.html#explore-the-data",
+    "title": "Comparing body mass across penguin species",
+    "section": "Explore the data",
+    "text": "Explore the data\nI load the dataset and check its size and first few rows.\n\npenguins = load_penguins()\n\nprint(\"Number of rows:\", penguins.shape[0])\nprint(\"Number of columns:\", penguins.shape[1])\n\npenguins.head()\n\nNumber of rows: 344\nNumber of columns: 8\n\n\n\n\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\nyear\n\n\n\n\n0\nAdelie\nTorgersen\n39.1\n18.7\n181.0\n3750.0\nmale\n2007\n\n\n1\nAdelie\nTorgersen\n39.5\n17.4\n186.0\n3800.0\nfemale\n2007\n\n\n2\nAdelie\nTorgersen\n40.3\n18.0\n195.0\n3250.0\nfemale\n2007\n\n\n3\nAdelie\nTorgersen\nNaN\nNaN\nNaN\nNaN\nNaN\n2007\n\n\n4\nAdelie\nTorgersen\n36.7\n19.3\n193.0\n3450.0\nfemale\n2007\n\n\n\n\n\n\n\nThe dataset contains 344 penguins. For this analysis, I focus on the species and body mass columns. Body mass is measured in grams."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#check-missing-values",
+    "href": "posts/penguins-python/index.html#check-missing-values",
+    "title": "Comparing body mass across penguin species",
+    "section": "Check missing values",
+    "text": "Check missing values\nBefore calculating averages, I check whether any body mass values are missing.\n\nprint(penguins[[\"species\", \"body_mass_g\"]].isna().sum())\n\npenguins_clean = penguins.dropna(subset=[\"species\", \"body_mass_g\"])\n\nprint(\"Rows remaining:\", len(penguins_clean))\nprint(\"Rows removed:\", len(penguins) - len(penguins_clean))\n\nspecies        0\nbody_mass_g    2\ndtype: int64\nRows remaining: 342\nRows removed: 2\n\n\nTwo penguins have missing body mass values, leaving 342 records for the comparison. I only remove rows missing values needed for this analysis. Missing values in other columns do not affect this comparison."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#average-body-mass-by-species",
+    "href": "posts/penguins-python/index.html#average-body-mass-by-species",
+    "title": "Comparing body mass across penguin species",
+    "section": "Average body mass by species",
+    "text": "Average body mass by species\nI group the remaining records by species and calculate the number of penguins and their average body mass.\n\nspecies_summary = (\n    penguins_clean\n    .groupby(\"species\", as_index=False)\n    .agg(\n        count=(\"body_mass_g\", \"size\"),\n        mean_body_mass_g=(\"body_mass_g\", \"mean\")\n    )\n    .sort_values(\"mean_body_mass_g\")\n)\n\nspecies_summary.round(1)\n\n\n\n\n\n\n\n\nspecies\ncount\nmean_body_mass_g\n\n\n\n\n0\nAdelie\n151\n3700.7\n\n\n1\nChinstrap\n68\n3733.1\n\n\n2\nGentoo\n123\n5076.0\n\n\n\n\n\n\n\nGentoo penguins have the highest average body mass, at approximately 5,076 grams. Adelie and Chinstrap penguins have similar averages, at approximately 3,701 and 3,733 grams."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#compare-the-averages-visually",
+    "href": "posts/penguins-python/index.html#compare-the-averages-visually",
+    "title": "Comparing body mass across penguin species",
+    "section": "Compare the averages visually",
+    "text": "Compare the averages visually\n\nfig, ax = plt.subplots(figsize=(7, 4))\n\nax.bar(\n    species_summary[\"species\"],\n    species_summary[\"mean_body_mass_g\"],\n    color=[\"#4477AA\", \"#228833\", \"#CCBB44\"]\n)\n\nax.set_xlabel(\"Penguin species\")\nax.set_ylabel(\"Average body mass (g)\")\nax.set_title(\"Average body mass by species\")\nax.set_ylim(bottom=0)\n\nfig.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigure 1: Average body mass by penguin species, excluding records with missing body mass."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html#conclusion",
+    "href": "posts/penguins-python/index.html#conclusion",
+    "title": "Comparing body mass across penguin species",
+    "section": "Conclusion",
+    "text": "Conclusion\nIn this dataset, Gentoo penguins have a higher average body mass than the other two species. Adelie and Chinstrap penguins have much closer averages.\nThis comparison only describes group averages. It does not show the variation within each species or account for differences in the proportion of male and female penguins. A useful next step would be to compare body mass by both species and sex."
   },
   {
     "objectID": "about.html",
