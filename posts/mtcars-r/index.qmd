@@ -10,3 +10,16 @@ average miles per gallon across cylinder groups.
 Data: [Motor Trend Car Road Tests](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html),
 available as the built-in mtcars dataset in R.
 It contains information about 32 cars from the 1973–74 model years.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+head(mtcars)
+```
