@@ -10,3 +10,8 @@ I will explore how body mass differs across penguin species.
 Data: [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/),
 collected by Dr. Kristen Gorman and Palmer Station Antarctica LTER.
 The data is available under a CC0 licence.
+
+```{python}
+import sys
+print(sys.executable)
+```

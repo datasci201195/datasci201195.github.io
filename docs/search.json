@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 11, 2026\n\n\nRupesh Patel\n\n\n\n\n\nNo matching items"
+    "text": "Car weight and fuel efficiency\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nComparing body mass across penguin species\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nRupesh Patel\n\n\n\n\n\n\n\n\n\n\n\n\nMy first weeks in MDS\n\n\n\n\n\n\n\n\nSep 11, 2026\n\n\nRupesh Patel\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -14,11 +14,25 @@
     "text": "Introduction: My name is Rupesh Patel. I came from Toronto,Ontario,Canada. I studied bachelore in Mechanical Engineering. From this program, I’m hoping to learn about datascience, machine learning concepts. I was working as a data engineer at Alberta’s financial corporation. After completing this program,I’m planning to become a datascientist."
   },
   {
+    "objectID": "posts/mtcars-r/index.html",
+    "href": "posts/mtcars-r/index.html",
+    "title": "Car weight and fuel efficiency",
+    "section": "",
+    "text": "I will explore how car weight relates to fuel efficiency and compare average miles per gallon across cylinder groups.\nData: Motor Trend Car Road Tests, available as the built-in mtcars dataset in R. It contains information about 32 cars from the 1973–74 model years."
+  },
+  {
     "objectID": "posts/first-weeks/index.html",
     "href": "posts/first-weeks/index.html",
     "title": "My first weeks in MDS",
     "section": "",
     "text": "I drove into Vancouver on August 9th with a car full of boxes and spent the month before classes on logistics. Orientation was mostly a blur of names, but one thing landed: this is a cohort program — same people, same four courses, same room, every day until May. Then classes started and it was DSCI 551, 523, 511, and 521 all at once, each with labs. The site you are reading is a 521 deliverable, which is a slightly strange thing to write in a blog post.\nI assumed the tooling would be the easy part. Instead my first real fight of the term was with SSH: I could not clone from github.ubc.ca at all, and the cause turned out to be an IdentityFile mismatch once I had more than one key on the machine. R surprised me too. I write Python for a living and figured a second language would be translation work, then lost an embarrassing stretch of time to the difference between list(values) and as.list(values), which are not the same thing and do not fail loudly when you pick wrong.\nThe best surprise was conceptual. In 551 something clicked about the difference between a parametric family, a specific distribution inside it, the parameters that pick it out, and the values you actually observe — four things I had been using interchangeably for years. That is the whole reason I came: I was good at building pipelines and much shakier on what the numbers coming out of them meant. Being the least informed person in the room again is uncomfortable and clearly the point. Ask me again after midterms.\n\n\n\nOrientation day on campus."
+  },
+  {
+    "objectID": "posts/penguins-python/index.html",
+    "href": "posts/penguins-python/index.html",
+    "title": "Comparing body mass across penguin species",
+    "section": "",
+    "text": "I will explore how body mass differs across penguin species.\nData: Palmer Penguins, collected by Dr. Kristen Gorman and Palmer Station Antarctica LTER. The data is available under a CC0 licence.\n\nimport sys\nprint(sys.executable)\n\n/Users/patelru/ubc_mds/521/datasci201195.github.io/.venv/bin/python3"
   },
   {
     "objectID": "about.html",
